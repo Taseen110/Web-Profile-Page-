@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Global Reset and Typography */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    h2, h3, h1 {
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* Dark and Light Mode Styling */
+    body.light-mode {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    body.dark-mode {
+      background-color: #556472;
+      color: #e9ecef;
+    }
+
+    /* Header and Profile Section */
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ddd;
+    }
+
+    .profile-photo:hover {
+      border-color: #3498db;
+      cursor: pointer;
+    }
+
+    .profile-header h1 {
+      font-size: 2.5rem;
+      color: #333;
+    }
+
+    .profile-header p {
+      color: #555;
+      font-size: 1.1rem;
+    }
+
+    /* Theme Switcher Button */
+    .theme-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
+      background: #3498db;
+      border: none;
+      padding: 15px;
+      border-radius: 50%;
+      color: #312c2c;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
+    }
+
+    .theme-switcher:hover {
+      background-color: #2980b9;
+    }
+
+    .theme-switcher i {
+      font-size: 1.5rem;
+    }
+
+    /* Form Section */
+    .form-section {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-control {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .form-control:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-primary {
+      background-color: #3498db;
+      border: none;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 5px;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+
+    /* Profile Display */
+    #profileDisplay {
+      display: none;
+    }
+
+    .profile-info {
+      margin-top: 30px;
+    }
+
+    .list-group-item {
+      background-color: #dfc1c1;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .list-group-item:hover {
+      background-color: #f8f9fa;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 767px) {
+      .profile-photo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .profile-header h1 {
+        font-size: 2rem;
+      }
+
+      .form-control {
+        font-size: 0.9rem;
+      }
+
+      .btn-primary {
+        width: 100%;
+        font-size: 1rem;
+      }
+
+      .theme-switcher {
+        top: 10px;
+        right: 10px;
+      }
+    }
+
+  </style>
+</head>
+<body class="light-mode">
+  <!-- Theme Toggle Button -->
+  <div class="theme-switcher" onclick="toggleTheme()">
+    <i id="themeIcon" class="fas fa-sun"></i>
+  </div>
+
+  <!-- Profile Information Form (Visible initially) -->
+  <div id="profileFormSection" class="container my-4">
+    <div class="profile-header">
+      <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="Profile Photo" class="profile-photo mb-4">
+      <h1>Enter Profile Information</h1>
+      <p>Fill out the form below to create or update your profile.</p>
+    </div>
+    <div class="form-section">
+      <form id="profileForm" onsubmit="updateProfile(event)">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone:</label>
+          <input type="text" id="phone" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="location">Location:</label>
+          <input type="text" id="location" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="work">Work Experience:</label>
+          <input type="text" id="work" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="education">Education:</label>
+          <input type="text" id="education" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="skills">Skills (comma separated):</label>
+          <input type="text" id="skills" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="projects">Projects:</label>
+          <input type="text" id="projects" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="profilePhoto">Profile Photo:</label><br>
+          <input type="file" id="profilePhoto" class="btn btn-secondary" onchange="previewPhoto(event)">
+          <img id="profileImagePreview" src="https://via.placeholder.com/150" alt="Profile Photo" class="profile-photo mt-2">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Profile Information Display (Initially Hidden) -->
+  <div id="profileDisplay" class="container my-4">
+    <div class="text-center">
+      <img id="displayProfileImage" src="https://via.placeholder.com/150" alt="Profile Photo" class="profile-photo">
+      <h1 id="displayName" class="mt-3">Your Name</h1>
+      <p id="displayTitle">Your Title</p>
+    </div>
+    <div class="profile-info">
+      <section>
+        <h2>Personal Information</h2>
+        <p id="displayEmail">Email: example@example.com</p>
+        <p id="displayPhone">Phone: +123 456 7890</p>
+        <p id="displayLocation">Location: City, Country</p>
+      </section>
+      <section>
+        <h2>Work Experience</h2>
+        <ul id="displayWork" class="list-group"></ul>
+      </section>
+      <section>
+        <h2>Education</h2>
+        <ul id="displayEducation" class="list-group"></ul>
+      </section>
+      <section>
+        <h2>Skills</h2>
+        <ul id="displaySkills" class="list-group"></ul>
+      </section>
+      <section>
+        <h2>Projects</h2>
+        <ul id="displayProjects" class="list-group"></ul>
+      </section>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+      const themeIcon = document.getElementById('themeIcon');
+      if (document.body.classList.contains('dark-mode')) {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      } else {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+      }
+    }
+
+    function previewPhoto(event) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('profileImagePreview').src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function updateProfile(event) {
+      event.preventDefault();
+      
+      // Get form values
+      const name = document.getElementById('name').value;
+      const title = document.getElementById('title').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+      const location = document.getElementById('location').value;
+      const work = document.getElementById('work').value;
+      const education = document.getElementById('education').value;
+      const skills = document.getElementById('skills').value.split(',');
+      const projects = document.getElementById('projects').value;
+      const profilePhoto = document.getElementById('profilePhoto').files[0];
+
+      // Update profile display
+      document.getElementById('displayName').innerText = name;
+      document.getElementById('displayTitle').innerText = title;
+      document.getElementById('displayEmail').innerText = `Email: ${email}`;
+      document.getElementById('displayPhone').innerText = `Phone: ${phone}`;
+      document.getElementById('displayLocation').innerText = `Location: ${location}`;
+
+      // Work experience, education, skills, and projects
+      document.getElementById('displayWork').innerHTML = `<li class="list-group-item">${work}</li>`;
+      document.getElementById('displayEducation').innerHTML = `<li class="list-group-item">${education}</li>`;
+      document.getElementById('displaySkills').innerHTML = skills.map(skill => `<li class="list-group-item">${skill.trim()}</li>`).join('');
+      document.getElementById('displayProjects').innerHTML = `<li class="list-group-item">${projects}</li>`;
+
+      // Update the profile image
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('displayProfileImage').src = reader.result;
+      };
+      if (profilePhoto) {
+        reader.readAsDataURL(profilePhoto);
+      }
+
+      // Show profile display and hide the form
+      document.getElementById('profileFormSection').style.display = 'none';
+      document.getElementById('profileDisplay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
